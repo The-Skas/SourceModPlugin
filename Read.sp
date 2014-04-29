@@ -5,18 +5,16 @@
 #include "globals.inc"
 public Plugin:myinfo =
 {
-	name = "Beta",
+	name = "Read",
 	author = "Skas",
-	description = "Get Plugin",
+	description = "Reading a File",
 	version = "1.0",
 	url = "http://www.sourcemod.net/"
 }
 
-new Handle:g_Charlie;
 public OnPluginStart()
 {
 	CreateTimer(1.0, LoadStuff,_,TIMER_REPEAT);
-	g_Charlie = CreateGlobalForward("Charlie",ET_Single ,Param_String);
 	//Run tests
 	//*For each file run its equivilant '%File_Name%Test();'
 	
@@ -25,15 +23,23 @@ public OnGameFrame()
 {
 	
 }
-
-forward Charlie( String:astr[]);
+forward AyYoG();
 public Action:LoadStuff(Handle:timer)
 {
 	//Ran into an issue in testing openFile
-	decl result;
-	Call_StartForward(g_Charlie);
-	Call_PushString("Hey!");
-	Call_Finish(result);
+
+	new Handle:file = OpenFile("averyuniquefile.txt","r");
+	if (file == INVALID_HANDLE)
+	{
+		PrintToServer("Invalid handlez");
+	}
+	else
+	{
+		new String:readme[100];
+		ReadFileString(file, readme, 100, -1);
+		PrintToServer("value read: %s", readme);
+	}
+	CloseHandle(file);
 }
 //this might as well be a different name. 
 //The purpose is to have a user execute a user written function @ run time -
