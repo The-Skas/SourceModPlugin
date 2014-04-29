@@ -2,9 +2,14 @@
 #define _DEBUG true
 
 new DEBUG = _DEBUG;
-new tX = 5;
+static tX = 66;
 
-public aFuncYo()
+public getTx()
 {
-	
+	return tX;
+}
+
+public setTx(tx)
+{
+	tX = tx;
 }

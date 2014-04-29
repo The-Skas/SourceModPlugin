@@ -48,7 +48,6 @@ public OnPluginStart()
 	Robot.aFunc();
 	//Run tests
 	//*For each file run its equivilant '%FileName%Test();'
-	CreateTimer(1.0, LoadStuff,_,TIMER_REPEAT);
 
 	PrintToServer("Hello world!");
 	//commands
@@ -57,11 +56,7 @@ public OnPluginStart()
 	HookEvent("player_spawn", OnPlayerSpawned);
 	
 }
-public Action:LoadStuff(Handle:timer)
-{
-	PrintToServer("ALPHA-tX: %i", tX);
 
-}
 public Action:OnPlayerSpawned(Handle:event, const String:name[], bool:dontBroadcast)
 {
 	new client = GetClientOfUserId(GetEventInt(event, "userid"));
@@ -113,7 +108,7 @@ public Action:Command_Thrust(client, args)
 }
 public OnGameFrame()
 {
-	tX = 4;
+	
 	printClientAbsVelocity(1);
 	printClientVelocity(1);
 	//These lines Are the thruster code*

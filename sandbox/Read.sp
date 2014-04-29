@@ -5,9 +5,9 @@
 #include "globals.inc"
 public Plugin:myinfo =
 {
-	name = "Beta",
+	name = "Read",
 	author = "Skas",
-	description = "Get Plugin",
+	description = "Reading a File",
 	version = "1.0",
 	url = "http://www.sourcemod.net/"
 }
@@ -28,15 +28,16 @@ public Action:LoadStuff(Handle:timer)
 {
 	//Ran into an issue in testing openFile
 
-	new Handle:file = OpenFile("averyuniquefile.txt","a+");
+	new Handle:file = OpenFile("averyuniquefile.txt","r");
 	if (file == INVALID_HANDLE)
 	{
 		PrintToServer("Invalid handlez");
 	}
-	PrintToServer("BETA-tX: %i", getTx());
-	if(WriteFileString(file, "COOL", true))
+	else
 	{
-		PrintToServer("Success!");
+		new String:readme[100];
+		ReadFileString(file, readme, 100, -1);
+		PrintToServer("value read: %s", readme);
 	}
 	CloseHandle(file);
 }

@@ -5,9 +5,9 @@
 #include "globals.inc"
 public Plugin:myinfo =
 {
-	name = "Beta",
+	name = "Charlie",
 	author = "Skas",
-	description = "Get Plugin",
+	description = "Just testing",
 	version = "1.0",
 	url = "http://www.sourcemod.net/"
 }
@@ -27,13 +27,13 @@ forward AyYoG();
 public Action:LoadStuff(Handle:timer)
 {
 	//Ran into an issue in testing openFile
-
+	setTx(4);
 	new Handle:file = OpenFile("averyuniquefile.txt","a+");
 	if (file == INVALID_HANDLE)
 	{
 		PrintToServer("Invalid handlez");
 	}
-	PrintToServer("BETA-tX: %i", getTx());
+	PrintToServer("Charlie-tX: %i", getTx());
 	if(WriteFileString(file, "COOL", true))
 	{
 		PrintToServer("Success!");
