@@ -1,0 +1,6 @@
+#!/bin/bash
+/Users/skas/Library/Application\ Support/Steam/SteamApps/common/Team\ Fortress\ 2/tf/addons/sourcemod/scripting/spcomp $1.sp
+wait
+mv $1.smx /Users/skas/Library/Application\ Support/Steam/SteamApps/common/Team\ Fortress\ 2/tf/addons/sourcemod/plugins/
+echo "----"
+echo "Done"
