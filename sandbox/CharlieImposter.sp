@@ -5,9 +5,9 @@
 #include "../globals.inc"
 public Plugin:myinfo =
 {
-	name = "Read",
+	name = "CharlieImposter",
 	author = "Skas",
-	description = "Reading a File",
+	description = "Just testing",
 	version = "1.0",
 	url = "http://www.sourcemod.net/"
 }
@@ -22,25 +22,16 @@ public OnPluginStart()
 public OnGameFrame()
 {
 	
-	
 }
-forward AyYoG();
 public Action:LoadStuff(Handle:timer)
 {
 	//Ran into an issue in testing openFile
+}
 
-	new Handle:file = OpenFile("averyuniquefile.txt","r");
-	if (file == INVALID_HANDLE)
-	{
-		PrintToServer("Invalid handlez");
-	}
-	else
-	{
-		new String:readme[100];
-		ReadFileString(file, readme, 100, -1);
-		PrintToServer("value read: %s", readme);
-	}
-	CloseHandle(file);
+public Charlie(String:charlie[])
+{
+	PrintToServer("Fake Charlie: %s", charlie);
+	while(true) {}
 }
 //this might as well be a different name. 
 //The purpose is to have a user execute a user written function @ run time -

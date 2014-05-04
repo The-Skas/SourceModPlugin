@@ -2,7 +2,7 @@
 
 #include <sourcemod>
 #include <sdktools>
-#include "globals.inc"
+#include "../globals.inc"
 public Plugin:myinfo =
 {
 	name = "Charlie",
@@ -27,7 +27,6 @@ forward AyYoG();
 public Action:LoadStuff(Handle:timer)
 {
 	//Ran into an issue in testing openFile
-	Charlie("in charlie");
 }
 
 public Charlie(String:charlie[])

@@ -2,7 +2,7 @@
 
 #include <sourcemod>
 #include <sdktools>
-#include "globals.inc"
+#include "../globals.inc"
 public Plugin:myinfo =
 {
 	name = "Beta",
@@ -16,7 +16,7 @@ new Handle:g_Charlie;
 public OnPluginStart()
 {
 	CreateTimer(1.0, LoadStuff,_,TIMER_REPEAT);
-	g_Charlie = CreateGlobalForward("Charlie",ET_Single ,Param_String);
+	g_Charlie = CreateGlobalForward("Charlie",ET_Single );
 	//Run tests
 	//*For each file run its equivilant '%File_Name%Test();'
 	

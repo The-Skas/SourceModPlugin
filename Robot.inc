@@ -30,16 +30,7 @@ enum AxisAngles
 	x_y
 }
 
-#if defined AFUNC
-	#error "SHEEEET!"
-#endif
 
-public aFunc()
-{
-	
-}
-
-#define AFUNC
 
 //have instances of current objects in refrence.
 static Robot:instances[MAX_ROBOTS][Robot_Attrb];
