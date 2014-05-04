@@ -1,5 +1,19 @@
 #include "../helper.inc"
 
+/**
+ *  @author: Skas
+ *
+ *	File 'Object.sp'
+ *
+ * 	This class/file is meant to emulate an object oriented
+ * 	behaviour for use in Sourcepawn. 
+ *
+ * 	The idea is to have a static global Variable of instances
+ * 	in a TYPELESS array. 
+ *
+ *
+ * 
+ */
 
 enum Object_Attr
 {
@@ -11,40 +25,44 @@ enum Object_Attr
 
 #define MAX_SIZE 10
 
-
+functag MyFunction public(client);
+native My_NativeEx(MyFunction:func);
 //Used to manage available instances
 //all global instances
 static any:g_Object[MAX_SIZE][Object_Attr];
 
-static any:t_Object[3];
 //TEMP is used in g_Object as an instance for temporary calculations
-#define TEMP 'T'
-#define ZERO 0
+#define DEFAULT 0
+#define TEMP 1
 static bool:isTemp = false;
 //Start from '1', SINCE TEMP is at '0'
-static any:_nextInstance = 1;
+static any:_nextInstance = 2;
 
 
-									
-stock Object: new_Object(Object:obj = Object:-1, int = 5, Float:float = 3.05)
+stock Object(instance, _instance = 0)
+{
+	if(_instance == 0)
+	{
+		//Default Constructor
+	}
+	else
+	{
+		//Copy Constructor
+	}
+}
+
+stock Object: new_Object(Object:obj, int = 5, Float:float = 3.05)
 {
 	//TODO:a sharable Allocation function.
 	new instance = _nextInstance;
 
 	g_Object[instance][isUsed] = true;
 
-	if(obj == Object:-1)
-	{	//if no object passed, set values to default
-		g_Object[instance][anInt] = any:int;
-		g_Object[instance][aFloat] = any:float;
-		g_Object[instance][aString] = any:4;
-	}
-	else
-	{	//else copy object's values in.
-		g_Object[instance][anInt] = g_Object[obj][anInt];
-		g_Object[instance][aFloat] = g_Object[obj][aFloat];
-		g_Object[instance][aString] = g_Object[obj][aString];
-	}
+	//this signifies there isnt a temp object.
+
+	g_Object[instance][anInt] = g_Object[obj][anInt];
+	g_Object[instance][aFloat] = g_Object[obj][aFloat];
+	g_Object[instance][aString] = g_Object[obj][aString];
 
 	//Increment nextInstance
 	_nextInstance++;
@@ -52,49 +70,57 @@ stock Object: new_Object(Object:obj = Object:-1, int = 5, Float:float = 3.05)
 	return Object:instance;
 }
 
-public delete_Object(Object:object)
+Func()
 {
+
+}
+
+public Object_delete(Object:object)
+{
+
 	PrintToServer("Deleting obj %i", any:object);
 
 	g_Object[any:object][0] = false;
 }
 
-//Had issues adding arrays.
+
 public Object: operator+(Object:a, Object:b) {
 	//Initalise C at pos '2'
 		//TODO - Create a default array, manager.
 	PrintToServer("In Object: + operator indice a: %i -- b: %i", a,b);
 
-	g_Object[0][anInt] = g_Object[a][anInt] + g_Object[b][anInt];
+	g_Object[TEMP][anInt] = g_Object[a][anInt] + g_Object[b][anInt];
 
 	PrintToServer("G_Object 0 %i", g_Object[0][anInt]);
 
-	g_Object[0][aFloat]= Float:g_Object[a][aFloat] + Float:g_Object[b][aFloat];
+	g_Object[TEMP][aFloat]= Float:g_Object[a][aFloat] + Float:g_Object[b][aFloat];
 
-	g_Object[0][aString] = g_Object[a][aString] + g_Object[b][aString];
+	g_Object[TEMP][aString] = g_Object[a][aString] + g_Object[b][aString];
 	
 	//Used to toggle if there is temporary storage.
 	isTemp = true;
 
-	return Object:ZERO;
+	return Object:TEMP;
 }
 
 /**
- * The '=' overloads assignment AND
- * calling 'new'
+ * The '=' overloads assignment 
+ * 
+ * This is called on a 'new Object:objA'
+ * or on assignment such as 'objA = objB'
+ * given objB is a tag Object
  * 
  * new Object:aVarName
  */
 	
 public Object: operator=(Object:obj)
 {
-	//TEMP signifies that the object is from the temp variable
-	if(isTemp)
+	//isTemp signifies that the object is from the temp variable
+	if(any:obj == TEMP)
 	{
-		isTemp = false;
-		PrintToServer("In equal value t: %i %f",g_Object[ZERO][anInt], g_Object[ZERO][aFloat]);
+		PrintToServer("In equal value t: %i %f",g_Object[TEMP][anInt], g_Object[TEMP][aFloat]);
 
-		return new_Object(Object:ZERO);
+		return new_Object(Object:TEMP);
 	}
 	
 	
@@ -102,33 +128,37 @@ public Object: operator=(Object:obj)
 }
 
 
+
 //OnPluginStart -> main
 public OnPluginStart()
 {
-	
 	for(new i = 0; i < 3; i ++)
 	{
-		new Object:obj = new_Object();
+		new Object:obj = new_Object(obj);
 		PrintToServer("Object ind %i is : %i %f",i, g_Object[0][anInt],g_Object[0][aFloat] );
 	}				  
 
 					// _Object_new();
-	new Object:objA = new_Object();
-	new Object:objB = new_Object();
+	new Object:objA = new_Object(objA);
+	new Object:objB = new_Object(objB);
 	new Object:objC = objA + objB;
 	new Object:objD = objA + objB + objC + objA;
+	PrintToServer("ObjA ind is: %i", objA);
+
 	PrintToServer("Get last instance : %i", _nextInstance - 1);
-	PrintToServer("Object C[%i]  is : %i %f",objC, g_Object[objC][anInt],g_Object[objC][1]);
-	PrintToServer("Object D[%i]  is : %i %f",objD, g_Object[objD][anInt],g_Object[objD][1]);
+	PrintToServer("Object C[%i]  is : %i %f",objC, g_Object[objC][anInt],g_Object[objC][aFloat]);
+	PrintToServer("Object D[%i]  is : %i %f",objD, g_Object[objD][anInt],g_Object[objD][aFloat]);
 
 	for(new any:i = 0; i < MAX_SIZE; i++)
 	{
 		PrintToServer("Array value:[%i] = %b ", i, g_Object[i]);
 	}
+	PrintToServer("ObjA ind is: %i", objA);
 
 	//Testing Deleting
-	delete_Object(objA);
 
+	Object_delete(objA);
+	
 
 	for(new any:i = 0; i < MAX_SIZE; i++)
 	{
